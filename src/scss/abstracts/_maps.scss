@@ -1,0 +1,16 @@
+$breakpoints: (
+  "small": 44em,
+  "medium": 50em,
+  "large": 75em,
+);
+
+$clr-primary: (
+  400: hsl(180, 29%, 50%),
+);
+
+$clr-neutral: (
+  100: hsl(180, 52%, 96%), //Background
+  200: hsl(180, 31%, 95%), //Filter Tablets
+  300: hsl(180, 8%, 52%),
+  400: hsl(180, 14%, 20%),
+);
