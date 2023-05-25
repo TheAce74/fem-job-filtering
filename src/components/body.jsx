@@ -26,18 +26,21 @@ function Body() {
 function Filter() {
   return (
     <div className="filter">
-      <div className="filter__box">
-        <p>Frontend</p>
-        <i className="fa-solid fa-xmark" tabIndex="0"></i>
+      <div>
+        <div className="filter__box">
+          <p>Frontend</p>
+          <i className="fa-solid fa-xmark" tabIndex="0"></i>
+        </div>
+        <div className="filter__box">
+          <p>Frontend</p>
+          <i className="fa-solid fa-xmark" tabIndex="0"></i>
+        </div>
+        <div className="filter__box">
+          <p>Frontend</p>
+          <i className="fa-solid fa-xmark" tabIndex="0"></i>
+        </div>
       </div>
-      <div className="filter__box">
-        <p>Frontend</p>
-        <i className="fa-solid fa-xmark" tabIndex="0"></i>
-      </div>
-      <div className="filter__box">
-        <p>Frontend</p>
-        <i className="fa-solid fa-xmark" tabIndex="0"></i>
-      </div>
+        <button className="filter__clear">Clear</button>
     </div>
   );
 }
