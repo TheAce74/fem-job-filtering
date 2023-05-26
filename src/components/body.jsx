@@ -24,23 +24,25 @@ function Body() {
 }
 
 function Filter() {
+  const handleKeyDown = e => {
+    if (e.key === "Enter") e.target.click();
+  };
+
   return (
     <div className="filter">
       <div>
         <div className="filter__box">
           <p>Frontend</p>
-          <i className="fa-solid fa-xmark" tabIndex="0"></i>
-        </div>
-        <div className="filter__box">
-          <p>Frontend</p>
-          <i className="fa-solid fa-xmark" tabIndex="0"></i>
-        </div>
-        <div className="filter__box">
-          <p>Frontend</p>
-          <i className="fa-solid fa-xmark" tabIndex="0"></i>
+          <i
+            className="fa-solid fa-xmark"
+            tabIndex="0"
+            role="button"
+            aria-label="Remove Frontend"
+            onKeyDown={handleKeyDown}
+          ></i>
         </div>
       </div>
-        <button className="filter__clear">Clear</button>
+      <button className="filter__clear">Clear</button>
     </div>
   );
 }
