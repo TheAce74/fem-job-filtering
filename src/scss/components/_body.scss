@@ -3,6 +3,12 @@
 .body {
   width: min(80%, 1300px);
   margin-inline: auto;
+  position: relative;
+  min-height: calc(100dvh - 8rem);
+
+  &:not(:has(.filter)) {
+    padding-top: 4em;
+  }
 
   @include max(medium) {
     width: 95%;
@@ -12,7 +18,7 @@
 .filter {
   @extend .shadow;
   @extend .flex;
-  margin-bottom: 1em;
+  margin-bottom: 1.8em;
   border-radius: 0.5em;
   padding: 1.3em;
   translate: 0 -50%;
@@ -105,9 +111,10 @@
 
   #{&}__extra {
     @extend .flex;
-    gap: 0.2em;
+    gap: 0.8em;
     font-weight: 500;
     color: var(--clr-neutral-300);
+    justify-content: start;
 
     .dot {
       width: 0.4em;

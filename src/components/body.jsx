@@ -1,24 +1,47 @@
-const test = {
-  id: 2,
-  company: "Manage",
-  logo: "./images/manage.svg",
-  new: true,
-  featured: true,
-  position: "Fullstack Developer",
-  role: "Fullstack",
-  level: "Midweight",
-  postedAt: "1d ago",
-  contract: "Part Time",
-  location: "Remote",
-  languages: ["Python"],
-  tools: ["React"],
-};
+/* eslint-disable react/prop-types */
+import axios from "axios";
+import { useEffect, useState, useRef } from "react";
 
 function Body() {
+  const [data, setData] = useState([]);
+  const fullData = useRef([]);
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function fetchData() {
+      const response = await axios.get("../../data.json");
+      const fetchedData = response.data;
+      if (!ignore) {
+        setData(fetchedData);
+        fullData.current = fetchedData;
+      }
+    }
+
+    fetchData();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
   return (
     <main className="body">
       <Filter />
-      <Card />
+      {data.length !== 0 ? (
+        data.map(item => <Card item={item} key={item.id} />)
+      ) : (
+        <div className="lds-roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      )}
     </main>
   );
 }
@@ -47,37 +70,37 @@ function Filter() {
   );
 }
 
-function Card() {
+function Card({ item }) {
   return (
     <>
       <div className="card">
         <div className="card--left">
           <img
-            src={test.logo}
-            alt={`${test.company} logo`}
+            src={item.logo}
+            alt={`${item.company} logo`}
             className="card__img"
           />
           <div className="card__details">
             <div className="card__titles">
-              <p className="card__name">{test.company}</p>
-              {test.new ? <p className="new">NEW!</p> : <></>}
-              {test.featured ? <p className="featured">FEATURED</p> : <></>}
+              <p className="card__name">{item.company}</p>
+              {item.new ? <p className="new">NEW!</p> : <></>}
+              {item.featured ? <p className="featured">FEATURED</p> : <></>}
             </div>
-            <h1 className="card__role">{test.position}</h1>
+            <h1 className="card__role">{item.position}</h1>
             <div className="card__extra">
-              <p>{test.postedAt}</p>
+              <p>{item.postedAt}</p>
               <div className="dot"></div>
-              <p>{test.contract}</p>
+              <p>{item.contract}</p>
               <div className="dot"></div>
-              <p>{test.location}</p>
+              <p>{item.location}</p>
             </div>
           </div>
         </div>
         <div className="card--right">
-          <button className="btn">{test.role}</button>
-          <button className="btn">{test.level}</button>
-          {test.languages.length !== 0 ? (
-            test.languages.map(item => (
+          <button className="btn">{item.role}</button>
+          <button className="btn">{item.level}</button>
+          {item.languages.length !== 0 ? (
+            item.languages.map(item => (
               <button className="btn" key={item}>
                 {item}
               </button>
@@ -85,192 +108,8 @@ function Card() {
           ) : (
             <></>
           )}
-          {test.tools.length !== 0 ? (
-            test.tools.map(item => (
-              <button className="btn" key={item}>
-                {item}
-              </button>
-            ))
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
-      <div className="card">
-        <div className="card--left">
-          <img
-            src={test.logo}
-            alt={`${test.company} logo`}
-            className="card__img"
-          />
-          <div className="card__details">
-            <div className="card__titles">
-              <p className="card__name">{test.company}</p>
-              {test.new ? <p className="new">NEW!</p> : <></>}
-              {test.featured ? <p className="featured">FEATURED</p> : <></>}
-            </div>
-            <h1 className="card__role">{test.position}</h1>
-            <div className="card__extra">
-              <p>{test.postedAt}</p>
-              <div className="dot"></div>
-              <p>{test.contract}</p>
-              <div className="dot"></div>
-              <p>{test.location}</p>
-            </div>
-          </div>
-        </div>
-        <div className="card--right">
-          <button className="btn">{test.role}</button>
-          <button className="btn">{test.level}</button>
-          {test.languages.length !== 0 ? (
-            test.languages.map(item => (
-              <button className="btn" key={item}>
-                {item}
-              </button>
-            ))
-          ) : (
-            <></>
-          )}
-          {test.tools.length !== 0 ? (
-            test.tools.map(item => (
-              <button className="btn" key={item}>
-                {item}
-              </button>
-            ))
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
-      <div className="card">
-        <div className="card--left">
-          <img
-            src={test.logo}
-            alt={`${test.company} logo`}
-            className="card__img"
-          />
-          <div className="card__details">
-            <div className="card__titles">
-              <p className="card__name">{test.company}</p>
-              {test.new ? <p className="new">NEW!</p> : <></>}
-              {test.featured ? <p className="featured">FEATURED</p> : <></>}
-            </div>
-            <h1 className="card__role">{test.position}</h1>
-            <div className="card__extra">
-              <p>{test.postedAt}</p>
-              <div className="dot"></div>
-              <p>{test.contract}</p>
-              <div className="dot"></div>
-              <p>{test.location}</p>
-            </div>
-          </div>
-        </div>
-        <div className="card--right">
-          <button className="btn">{test.role}</button>
-          <button className="btn">{test.level}</button>
-          {test.languages.length !== 0 ? (
-            test.languages.map(item => (
-              <button className="btn" key={item}>
-                {item}
-              </button>
-            ))
-          ) : (
-            <></>
-          )}
-          {test.tools.length !== 0 ? (
-            test.tools.map(item => (
-              <button className="btn" key={item}>
-                {item}
-              </button>
-            ))
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
-      <div className="card">
-        <div className="card--left">
-          <img
-            src={test.logo}
-            alt={`${test.company} logo`}
-            className="card__img"
-          />
-          <div className="card__details">
-            <div className="card__titles">
-              <p className="card__name">{test.company}</p>
-              {test.new ? <p className="new">NEW!</p> : <></>}
-              {test.featured ? <p className="featured">FEATURED</p> : <></>}
-            </div>
-            <h1 className="card__role">{test.position}</h1>
-            <div className="card__extra">
-              <p>{test.postedAt}</p>
-              <div className="dot"></div>
-              <p>{test.contract}</p>
-              <div className="dot"></div>
-              <p>{test.location}</p>
-            </div>
-          </div>
-        </div>
-        <div className="card--right">
-          <button className="btn">{test.role}</button>
-          <button className="btn">{test.level}</button>
-          {test.languages.length !== 0 ? (
-            test.languages.map(item => (
-              <button className="btn" key={item}>
-                {item}
-              </button>
-            ))
-          ) : (
-            <></>
-          )}
-          {test.tools.length !== 0 ? (
-            test.tools.map(item => (
-              <button className="btn" key={item}>
-                {item}
-              </button>
-            ))
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
-      <div className="card">
-        <div className="card--left">
-          <img
-            src={test.logo}
-            alt={`${test.company} logo`}
-            className="card__img"
-          />
-          <div className="card__details">
-            <div className="card__titles">
-              <p className="card__name">{test.company}</p>
-              {test.new ? <p className="new">NEW!</p> : <></>}
-              {test.featured ? <p className="featured">FEATURED</p> : <></>}
-            </div>
-            <h1 className="card__role">{test.position}</h1>
-            <div className="card__extra">
-              <p>{test.postedAt}</p>
-              <div className="dot"></div>
-              <p>{test.contract}</p>
-              <div className="dot"></div>
-              <p>{test.location}</p>
-            </div>
-          </div>
-        </div>
-        <div className="card--right">
-          <button className="btn">{test.role}</button>
-          <button className="btn">{test.level}</button>
-          {test.languages.length !== 0 ? (
-            test.languages.map(item => (
-              <button className="btn" key={item}>
-                {item}
-              </button>
-            ))
-          ) : (
-            <></>
-          )}
-          {test.tools.length !== 0 ? (
-            test.tools.map(item => (
+          {item.tools.length !== 0 ? (
+            item.tools.map(item => (
               <button className="btn" key={item}>
                 {item}
               </button>
