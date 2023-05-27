@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 
 function Body() {
   const [data, setData] = useState([]);
+  const [filter, setFilter] = useState([]);
   const fullData = useRef([]);
 
   useEffect(() => {
@@ -25,11 +26,58 @@ function Body() {
     };
   }, []);
 
+  const handleClick = e => {
+    const remove = e.target.tagName === "BUTTON" ? false : true;
+    const value =
+      e.target.tagName === "BUTTON"
+        ? e.target.textContent
+        : e.target.previousElementSibling.textContent;
+
+    let updatedFilter;
+    if (remove) {
+      updatedFilter = filter.filter(item => item !== value);
+    } else {
+      if (!filter.includes(value)) {
+        updatedFilter = [...filter, value];
+      } else return;
+    }
+    setFilter(updatedFilter);
+
+    if (updatedFilter.length !== 0) {
+      const updatedData = fullData.current.filter(
+        item =>
+          (updatedFilter.includes(item.role) ||
+            updatedFilter.includes(item.level) ||
+            item.languages.some(elem => updatedFilter.includes(elem)) ||
+            item.tools.some(elem => updatedFilter.includes(elem))) &&
+          updatedFilter.every(elem =>
+            [item.role, item.level, ...item.languages, ...item.tools].includes(
+              elem,
+            ),
+          ),
+      );
+      setData(updatedData);
+    } else {
+      setData(fullData.current);
+    }
+  };
+
+  const handleClear = () => {
+    setFilter([]);
+    setData(fullData.current);
+  };
+
   return (
     <main className="body">
-      <Filter />
+      <Filter
+        filter={filter}
+        handleClick={handleClick}
+        handleClear={handleClear}
+      />
       {data.length !== 0 ? (
-        data.map(item => <Card item={item} key={item.id} />)
+        data.map(item => (
+          <Card item={item} key={item.id} handleClick={handleClick} />
+        ))
       ) : (
         <div className="lds-roller">
           <div></div>
@@ -46,31 +94,41 @@ function Body() {
   );
 }
 
-function Filter() {
+function Filter({ filter, handleClick, handleClear }) {
   const handleKeyDown = e => {
     if (e.key === "Enter") e.target.click();
   };
 
-  return (
+  return filter.length !== 0 ? (
     <div className="filter">
       <div>
-        <div className="filter__box">
-          <p>Frontend</p>
-          <i
-            className="fa-solid fa-xmark"
-            tabIndex="0"
-            role="button"
-            aria-label="Remove Frontend"
-            onKeyDown={handleKeyDown}
-          ></i>
-        </div>
+        {filter.map(item => (
+          <div className="filter__box" key={item}>
+            <p>{item}</p>
+            <i
+              className="fa-solid fa-xmark"
+              tabIndex="0"
+              role="button"
+              aria-label={`Remove ${item}`}
+              onKeyDown={handleKeyDown}
+              onClick={handleClick}
+            ></i>
+          </div>
+        ))}
       </div>
-      <button className="filter__clear">Clear</button>
+      <button className="filter__clear" onClick={handleClear}>
+        Clear{" "}
+        <span style={{ display: "none" }} aria-hidden="false">
+          all
+        </span>
+      </button>
     </div>
+  ) : (
+    <></>
   );
 }
 
-function Card({ item }) {
+function Card({ item, handleClick }) {
   return (
     <>
       <div className="card">
@@ -97,11 +155,15 @@ function Card({ item }) {
           </div>
         </div>
         <div className="card--right">
-          <button className="btn">{item.role}</button>
-          <button className="btn">{item.level}</button>
+          <button className="btn" onClick={handleClick}>
+            {item.role}
+          </button>
+          <button className="btn" onClick={handleClick}>
+            {item.level}
+          </button>
           {item.languages.length !== 0 ? (
             item.languages.map(item => (
-              <button className="btn" key={item}>
+              <button className="btn" key={item} onClick={handleClick}>
                 {item}
               </button>
             ))
@@ -110,7 +172,7 @@ function Card({ item }) {
           )}
           {item.tools.length !== 0 ? (
             item.tools.map(item => (
-              <button className="btn" key={item}>
+              <button className="btn" key={item} onClick={handleClick}>
                 {item}
               </button>
             ))
