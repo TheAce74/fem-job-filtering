@@ -44,17 +44,12 @@ function Body() {
     setFilter(updatedFilter);
 
     if (updatedFilter.length !== 0) {
-      const updatedData = fullData.current.filter(
-        item =>
-          (updatedFilter.includes(item.role) ||
-            updatedFilter.includes(item.level) ||
-            item.languages.some(elem => updatedFilter.includes(elem)) ||
-            item.tools.some(elem => updatedFilter.includes(elem))) &&
-          updatedFilter.every(elem =>
-            [item.role, item.level, ...item.languages, ...item.tools].includes(
-              elem,
-            ),
+      const updatedData = fullData.current.filter(item =>
+        updatedFilter.every(elem =>
+          [item.role, item.level, ...item.languages, ...item.tools].includes(
+            elem,
           ),
+        ),
       );
       setData(updatedData);
     } else {
