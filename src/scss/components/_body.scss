@@ -24,6 +24,10 @@
   translate: 0 -50%;
   background-color: var(--clr-neutral-50);
 
+  &:has(:nth-child(5)) {
+    margin-bottom: 0;
+  }
+
   & > div {
     @extend .flex;
     justify-content: start;
