@@ -2,11 +2,11 @@
 .header {
   height: 8rem;
   background-color: var(--clr-primary-400);
-  background-image: url("./images/bg-header-desktop.svg");
+  background-image: url("../../public/images/bg-header-desktop.svg");
   background-size: cover;
   background-repeat: no-repeat;
 
   @include max(small) {
-    background-image: url("./images/bg-header-mobile.svg");
+    background-image: url("../../public/images/bg-header-mobile.svg");
   }
 }
